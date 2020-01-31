@@ -73,7 +73,12 @@ class TurboGraft.Remote
   uriEncodeForm: (form) ->
     formData = ""
     @_iterateOverFormInputs form, (input) =>
-      formData = @formAppend(formData, input.name, $(input).val())
+      value = $(input).val()
+      if Array.isArray(value)
+        for val in value
+          formData = @formAppend(formData, input.name, val)
+      else
+        formData = @formAppend(formData, input.name, value)
     formData
 
   formDataAppend: (formData, input) ->
